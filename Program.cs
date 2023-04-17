@@ -146,7 +146,7 @@ namespace DeviationBaisExperiment
             File.WriteAllText("Results\\small-ds.csv", sb.ToString());
 
             sb = new StringBuilder();
-            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std");
+            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std, Biased AD, Non-Biased AD");
             for (int i = 0; i < mds_samples.Count(); i++)
             {
                 var samples = mds_samples.ElementAt(i);
@@ -156,7 +156,7 @@ namespace DeviationBaisExperiment
             File.WriteAllText("Results\\medium-ds.csv", sb.ToString());
 
             sb = new StringBuilder();
-            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std");
+            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std, Biased AD, Non-Biased AD");
             for (int i = 0; i < lds_samples.Count(); i++)
             {
                 var samples = lds_samples.ElementAt(i);
