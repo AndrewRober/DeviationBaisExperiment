@@ -96,6 +96,7 @@ namespace DeviationBaisExperiment
             Console.WriteLine();
 
 
+            //Writing the samples to disk
             Console.WriteLine("Writing the samples to disk...");
             Directory.CreateDirectory("Small Ds samples");
             Directory.CreateDirectory("Medium Ds samples");
@@ -113,18 +114,24 @@ namespace DeviationBaisExperiment
             Console.WriteLine();
 
 
+            //calculating the population std with and without bias and calculating the actual std for the entire set
+            var smallDsStd = Arithmetic.StandardDeviation(smallDs);
+            var mediumDsStd = Arithmetic.StandardDeviation(mediumDs);
+            //var largeDsStd = StandardDeviation(largeDs);
+
+            //calculating datasets statistics
+            var smallDsStatistics = Arithmetic.CalculateStatistics(smallDs);
+            var mediumDsStatistics = Arithmetic.CalculateStatistics(mediumDs);
+            //var largeDsStatistics = Arithmetic.CalculateStatistics(largeDs);
+
+            Console.WriteLine("Actual standard deviation for the datasets is");
+            Console.WriteLine($"{"Small"}\ts= {smallDsStd:f2}\ts^2= {Math.Pow(smallDsStd, 2):f2}\tMean= {smallDsStatistics.mean:f2}\tMedian= {smallDsStatistics.median:f2}\tQ1= {smallDsStatistics.Q1:f2}\tQ2= {smallDsStatistics.Q2:f2}\tQ3= {smallDsStatistics.Q3:f2}\tIQR= {smallDsStatistics.IQR:f2}\tRange= {smallDsStatistics.range:f2}");
+            Console.WriteLine($"{"Medium"}\ts= {mediumDsStd:f2}\ts^2= {Math.Pow(mediumDsStd, 2):f2}\tMean= {mediumDsStatistics.mean:f2}\tMedian= {mediumDsStatistics.median:f2}\tQ1= {mediumDsStatistics.Q1:f2}\tQ2= {mediumDsStatistics.Q2:f2}\tQ3= {mediumDsStatistics.Q3:f2}\tIQR= {mediumDsStatistics.IQR:f2}\tRange= {mediumDsStatistics.range:f2}");
+            //Console.WriteLine($"{"Large"}\ts= {largeDsStd:f2}\ts^2= {Math.Pow(largeDsStd, 2):f2}\tMean= {largeDsStatistics.mean:f2}\tMedian= {largeDsStatistics.median:f2}\tQ1= {largeDsStatistics.Q1:f2}\tQ2= {largeDsStatistics.Q2:f2}\tQ3= {largeDsStatistics.Q3:f2}\tIQR= {largeDsStatistics.IQR:f2}\tRange= {largeDsStatistics.range:f2}");
+            Console.WriteLine();
+
+
         }
 
-        public static (double withBias, double withoutBias) StandardDeviationBiases(double[] data)
-        {
-            double sumOfSquaredDeviations = data.Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2));
-            return (Math.Sqrt(sumOfSquaredDeviations / (data.Length - 1)),
-                Math.Sqrt(sumOfSquaredDeviations / (data.Length)));
-        }
-
-        public static double StandardDeviation(double[] data) => Math.Sqrt(Variance(data));
-
-        public static double Variance(double[] data) =>
-            data.Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2)) / (data.Length);
     }
 }
