@@ -115,11 +115,16 @@ namespace DeviationBaisExperiment
 
         }
 
-        public static (double withBias, double withoutBias) CalculateSampleStandardDeviation(double[] data)
+        public static (double withBias, double withoutBias) StandardDeviationBiases(double[] data)
         {
             double sumOfSquaredDeviations = data.Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2));
             return (Math.Sqrt(sumOfSquaredDeviations / (data.Length - 1)),
                 Math.Sqrt(sumOfSquaredDeviations / (data.Length)));
         }
+
+        public static double StandardDeviation(double[] data) => Math.Sqrt(Variance(data));
+
+        public static double Variance(double[] data) =>
+            data.Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2)) / (data.Length);
     }
 }
