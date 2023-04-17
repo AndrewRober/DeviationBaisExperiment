@@ -80,6 +80,8 @@
 
         public static double Variance(int[] data) =>
             data.AsParallel().Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2)) / (data.Length);
+        public static double VarianceWithBias(int[] data) =>
+            data.AsParallel().Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2)) / (data.Length - 1);
 
         public static (double mean, double median, double mode, double range,
             double IQR, double Q1, double Q2, double Q3)

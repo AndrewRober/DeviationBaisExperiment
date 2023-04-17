@@ -116,6 +116,9 @@ namespace DeviationBaisExperiment
 
 
             //calculating the population std with and without bias and calculating the actual std for the entire set
+            var smallDsVariance = Arithmetic.Variance(smallDs);
+            var mediumDsVariance = Arithmetic.Variance(mediumDs);
+            var largeDsVariance = Arithmetic.Variance(largeDs);
             var smallDsStd = Arithmetic.StandardDeviation(smallDs);
             var mediumDsStd = Arithmetic.StandardDeviation(mediumDs);
             var largeDsStd = Arithmetic.StandardDeviation(largeDs);
@@ -133,32 +136,32 @@ namespace DeviationBaisExperiment
 
             Directory.CreateDirectory("Results");
             var sb = new StringBuilder();
-            sb.AppendLine($"Sample Size, Actual Std, Biased Std, Non-Biased Std");
+            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std, Biased AD, Non-Biased AD");
             for (int i = 0; i < sds_samples.Count(); i++)
             {
                 var samples = sds_samples.ElementAt(i);
                 (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-                sb.AppendLine($"{samples.Count()},{smallDsStd:f2},{biased:f2},{nonbiased:f2}");
+                sb.AppendLine($"{samples.Count()},{samplingArray[i]},{smallDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased)},{Math.Abs(smallDsStd - nonbiased)}");
             }
             File.WriteAllText("Results\\small-ds.csv", sb.ToString());
 
             sb = new StringBuilder();
-            sb.AppendLine($"Sample Size, Actual Std, Biased Std, Non-Biased Std");
+            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std");
             for (int i = 0; i < mds_samples.Count(); i++)
             {
                 var samples = mds_samples.ElementAt(i);
                 (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-                sb.AppendLine($"{samples.Count()},{mediumDsStd:f2},{biased:f2},{nonbiased:f2}");
+                sb.AppendLine($"{samples.Count()},{samplingArray[i]},{mediumDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased)},{Math.Abs(smallDsStd - nonbiased)}");
             }
             File.WriteAllText("Results\\medium-ds.csv", sb.ToString());
 
             sb = new StringBuilder();
-            sb.AppendLine($"Sample Size, Actual Std, Biased Std, Non-Biased Std");
+            sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std");
             for (int i = 0; i < lds_samples.Count(); i++)
             {
                 var samples = lds_samples.ElementAt(i);
                 (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-                sb.AppendLine($"{samples.Count()},{largeDsStd:f2},{biased:f2},{nonbiased:f2}");
+                sb.AppendLine($"{samples.Count()},{samplingArray[i]},{largeDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased)},{Math.Abs(smallDsStd - nonbiased)}");
             }
             File.WriteAllText("Results\\large-ds.csv", sb.ToString());
 
