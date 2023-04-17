@@ -141,7 +141,7 @@ namespace DeviationBaisExperiment
             {
                 var samples = sds_samples.ElementAt(i);
                 (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-                sb.AppendLine($"{samples.Count()},{samplingArray[i]},{smallDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased)},{Math.Abs(smallDsStd - nonbiased)}");
+                sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{smallDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
             }
             File.WriteAllText("Results\\small-ds.csv", sb.ToString());
 
@@ -151,7 +151,7 @@ namespace DeviationBaisExperiment
             {
                 var samples = mds_samples.ElementAt(i);
                 (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-                sb.AppendLine($"{samples.Count()},{samplingArray[i]},{mediumDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased)},{Math.Abs(smallDsStd - nonbiased)}");
+                sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{mediumDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
             }
             File.WriteAllText("Results\\medium-ds.csv", sb.ToString());
 
@@ -161,7 +161,7 @@ namespace DeviationBaisExperiment
             {
                 var samples = lds_samples.ElementAt(i);
                 (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-                sb.AppendLine($"{samples.Count()},{samplingArray[i]},{largeDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased)},{Math.Abs(smallDsStd - nonbiased)}");
+                sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{largeDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
             }
             File.WriteAllText("Results\\large-ds.csv", sb.ToString());
 
