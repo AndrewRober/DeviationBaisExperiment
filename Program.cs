@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Intrinsics.X86;
+using System.Text;
 
 namespace DeviationBaisExperiment
 {
@@ -117,21 +118,51 @@ namespace DeviationBaisExperiment
             //calculating the population std with and without bias and calculating the actual std for the entire set
             var smallDsStd = Arithmetic.StandardDeviation(smallDs);
             var mediumDsStd = Arithmetic.StandardDeviation(mediumDs);
-            //var largeDsStd = StandardDeviation(largeDs);
+            var largeDsStd = Arithmetic.StandardDeviation(largeDs);
 
             //calculating datasets statistics
             var smallDsStatistics = Arithmetic.CalculateStatistics(smallDs);
             var mediumDsStatistics = Arithmetic.CalculateStatistics(mediumDs);
-            //var largeDsStatistics = Arithmetic.CalculateStatistics(largeDs);
+            var largeDsStatistics = Arithmetic.CalculateStatistics(largeDs);
 
             Console.WriteLine("Actual standard deviation for the datasets is");
             Console.WriteLine($"{"Small"}\ts= {smallDsStd:f2}\ts^2= {Math.Pow(smallDsStd, 2):f2}\tMean= {smallDsStatistics.mean:f2}\tMedian= {smallDsStatistics.median:f2}\tQ1= {smallDsStatistics.Q1:f2}\tQ2= {smallDsStatistics.Q2:f2}\tQ3= {smallDsStatistics.Q3:f2}\tIQR= {smallDsStatistics.IQR:f2}\tRange= {smallDsStatistics.range:f2}");
             Console.WriteLine($"{"Medium"}\ts= {mediumDsStd:f2}\ts^2= {Math.Pow(mediumDsStd, 2):f2}\tMean= {mediumDsStatistics.mean:f2}\tMedian= {mediumDsStatistics.median:f2}\tQ1= {mediumDsStatistics.Q1:f2}\tQ2= {mediumDsStatistics.Q2:f2}\tQ3= {mediumDsStatistics.Q3:f2}\tIQR= {mediumDsStatistics.IQR:f2}\tRange= {mediumDsStatistics.range:f2}");
-            //Console.WriteLine($"{"Large"}\ts= {largeDsStd:f2}\ts^2= {Math.Pow(largeDsStd, 2):f2}\tMean= {largeDsStatistics.mean:f2}\tMedian= {largeDsStatistics.median:f2}\tQ1= {largeDsStatistics.Q1:f2}\tQ2= {largeDsStatistics.Q2:f2}\tQ3= {largeDsStatistics.Q3:f2}\tIQR= {largeDsStatistics.IQR:f2}\tRange= {largeDsStatistics.range:f2}");
+            Console.WriteLine($"{"Large"}\ts= {largeDsStd:f2}\ts^2= {Math.Pow(largeDsStd, 2):f2}\tMean= {largeDsStatistics.mean:f2}\tMedian= {largeDsStatistics.median:f2}\tQ1= {largeDsStatistics.Q1:f2}\tQ2= {largeDsStatistics.Q2:f2}\tQ3= {largeDsStatistics.Q3:f2}\tIQR= {largeDsStatistics.IQR:f2}\tRange= {largeDsStatistics.range:f2}");
             Console.WriteLine();
 
+            Directory.CreateDirectory("Results");
+            var sb = new StringBuilder();
+            sb.AppendLine($"Sample Size, Actual Std, Biased Std, Non-Biased Std");
+            for (int i = 0; i < sds_samples.Count(); i++)
+            {
+                var samples = sds_samples.ElementAt(i);
+                (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
+                sb.AppendLine($"{samples.Count()},{smallDsStd:f2},{biased:f2},{nonbiased:f2}");
+            }
+            File.WriteAllText("Results\\small-ds.csv", sb.ToString());
 
+            sb = new StringBuilder();
+            sb.AppendLine($"Sample Size, Actual Std, Biased Std, Non-Biased Std");
+            for (int i = 0; i < mds_samples.Count(); i++)
+            {
+                var samples = mds_samples.ElementAt(i);
+                (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
+                sb.AppendLine($"{samples.Count()},{mediumDsStd:f2},{biased:f2},{nonbiased:f2}");
+            }
+            File.WriteAllText("Results\\medium-ds.csv", sb.ToString());
+
+            sb = new StringBuilder();
+            sb.AppendLine($"Sample Size, Actual Std, Biased Std, Non-Biased Std");
+            for (int i = 0; i < lds_samples.Count(); i++)
+            {
+                var samples = lds_samples.ElementAt(i);
+                (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
+                sb.AppendLine($"{samples.Count()},{largeDsStd:f2},{biased:f2},{nonbiased:f2}");
+            }
+            File.WriteAllText("Results\\large-ds.csv", sb.ToString());
+
+            Console.ReadLine();
         }
-
     }
 }
