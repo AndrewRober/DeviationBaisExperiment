@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
+﻿using System.Text;
 
 namespace DeviationBaisExperiment
 {
@@ -12,6 +10,13 @@ namespace DeviationBaisExperiment
         static readonly int[] RANDOM_SEEDS = new[] { 0, 1 };
 
         static void Main(string[] args)
+        {
+            Experiment1();
+            Experiment2(200);
+            Experiment3(200);
+        }
+
+        static void Experiment1()
         {
             //initializing a random generator using constant seed
             Console.WriteLine($"Instantiating Random generators, seeds used [{string.Join(", ", RANDOM_SEEDS)}]");
@@ -166,6 +171,133 @@ namespace DeviationBaisExperiment
             File.WriteAllText("Results\\large-ds.csv", sb.ToString());
 
             Console.ReadLine();
+        }
+
+        
+        static void Experiment2(int times)
+        {
+            var samplingArrayCount = (int)((SAMPLING_END - SAMPLING_START) / SAMPLING_INC) + 1;
+            var samplingArray = Enumerable.Range((int)SAMPLING_START + 1, (int)samplingArrayCount)
+                .Select(i => i * SAMPLING_INC).ToArray();
+
+
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Dataset Size, MAD, MSE, MAPE");
+            for(int i = 1; i <= times; i++)
+            {
+                //initializing a random generator using constant seed
+                int s1 = Guid.NewGuid().GetHashCode(), s2 = Guid.NewGuid().GetHashCode();
+                Console.WriteLine($"Instantiating Random generators, seeds used [{s1}, {s2}]");
+                var r1 = new Random(s1);
+                var r2 = new Random(s2);
+
+                //generating the datasets
+                var smallDs = Enumerable.Range(0, i * SMALL_DS_SIZE)
+                    .Select(i => r1.Next(DS_MIN_VALUE, DS_MAX_VALUE)).ToArray();
+
+                //sampling the datasets
+                Console.WriteLine("Generating samples...");
+                var sds_samples_counts = Enumerable.Range(0, samplingArrayCount)
+                    .Select(i => (int)(samplingArray[i] * SMALL_DS_SIZE));
+                var sds_samples = sds_samples_counts
+                    .Select(j => Enumerable.Range(0, (int)j).Select(k => smallDs[r2.Next(0, SMALL_DS_SIZE)]));
+
+
+                //calculating the population std with and without bias and calculating the actual std for the entire set
+                var smallDsStd = Arithmetic.StandardDeviation(smallDs);
+
+                //calculate mean average deviation between biased std and non-biased std
+                var smallMAD = sds_samples.Sum(s =>
+                {
+                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return Math.Abs(biased - nonbiased);
+                }) / sds_samples.Count();
+                var smallMSE = sds_samples.Sum(s =>
+                {
+                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return Math.Pow(biased - nonbiased, 2);
+                }) / sds_samples.Count();
+                var smallMAPE = sds_samples.Sum(s =>
+                {
+                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return (Math.Abs(biased - nonbiased) / smallDsStd) * 100;
+                }) / sds_samples.Count();
+                sb.AppendLine($"{smallDs.Length}, {smallMAD:f2}, {smallMSE:f2}, {smallMAPE:f2}%");
+            }
+            File.WriteAllText("Results\\exp2-ds.csv", sb.ToString());
+
+
+
+
+            //Directory.CreateDirectory("Results");
+            //var sb = new StringBuilder();
+            //sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std, Biased AD, Non-Biased AD");
+            //for (int i = 0; i < sds_samples.Count(); i++)
+            //{
+            //    var samples = sds_samples.ElementAt(i);
+            //    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
+            //    sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{smallDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
+            //}
+            //File.WriteAllText("Results\\small-ds.csv", sb.ToString());
+
+
+        }
+
+        static void Experiment3(int times)
+        {
+            var samplingArrayCount = (int)((SAMPLING_END - SAMPLING_START) / SAMPLING_INC) + 1;
+            var samplingArray = Enumerable.Range((int)SAMPLING_START + 1, (int)samplingArrayCount)
+                .Select(i => i * SAMPLING_INC).ToArray();
+
+
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Dataset Size, MAD, MSE, MAPE");
+            for (int i = 1; i <= times; i++)
+            {
+                //initializing a random generator using constant seed
+                int s1 = Guid.NewGuid().GetHashCode(), s2 = Guid.NewGuid().GetHashCode();
+                Console.WriteLine($"Instantiating Random generators, seeds used [{s1}, {s2}]");
+                var r1 = new Random(s1);
+                var r2 = new Random(s2);
+
+                //generating the datasets
+                var smallDs = Enumerable.Range(0, i * SMALL_DS_SIZE)
+                    .Select(i => r1.Next(DS_MIN_VALUE, DS_MAX_VALUE)).ToArray();
+
+                //sampling the datasets
+                Console.WriteLine("Generating samples...");
+                var sds_samples_counts = Enumerable.Range(0, samplingArrayCount)
+                    .Select(k => (int)(samplingArray[k] * SMALL_DS_SIZE * i));
+                var sds_samples = sds_samples_counts
+                    .Select(j => Enumerable.Range(0, (int)j).Select(k => smallDs[r2.Next(0, SMALL_DS_SIZE)]));
+
+
+                //calculating the population std with and without bias and calculating the actual std for the entire set
+                var smallDsStd = Arithmetic.StandardDeviation(smallDs);
+
+                //calculate mean average deviation between biased std and non-biased std
+                var smallMAD = sds_samples.Sum(s =>
+                {
+                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return Math.Abs(biased - nonbiased);
+                }) / sds_samples.Count();
+                var smallMSE = sds_samples.Sum(s =>
+                {
+                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return Math.Pow(biased - nonbiased, 2);
+                }) / sds_samples.Count();
+                var smallMAPE = sds_samples.Sum(s =>
+                {
+                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return (Math.Abs(biased - nonbiased) / smallDsStd) * 100;
+                }) / sds_samples.Count();
+                sb.AppendLine($"{smallDs.Length}, {smallMAD:f2}, {smallMSE:f2}, {smallMAPE:f2}%");
+            }
+            File.WriteAllText("Results\\exp3-ds.csv", sb.ToString());
+
+
         }
     }
 }
