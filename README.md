@@ -36,7 +36,7 @@ Sampling was done using a percentage of the dataset, starting at 0.5%, with an i
 
 For the small dataset
 
-|**SAMPLE SIZE**|**SAMPLE PERCENTAGE**|**ACTUAL STD**|**BIASED STD**|**NON-BIASED STD**|**BIASED AD**|**NON-BIASED AD**|
+|**SAMPLE SIZE**|**SAMPLE PERCENTAGE**|**ACTUAL STD**|**NON-BIASED STD**|**BIASED STD**|**NON-BIASED AD**|**BIASED AD**|
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |**5**|0\.50%|289\.95|291\.17|260\.43|1\.23|29\.51|
 |**10**|1%|289\.95|267\.31|253\.59|22\.63|36\.35|
@@ -61,13 +61,13 @@ For the small dataset
 
 Plotting the results with and without log scale shows that Bessel’s correction was significant at few points (most obvious at 0.5% with 28 points absolute deviation difference) then starts overshooting to cause more error than without it; and it then went almost identical after 2%
 
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 001](https://user-images.githubusercontent.com/54873972/233227652-d370e2d9-4718-480f-8b39-714c948bef5f.png)
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 002](https://user-images.githubusercontent.com/54873972/233227663-f00aca8e-87ec-4fde-b579-0a1631330d03.png)
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 001](https://user-images.githubusercontent.com/54873972/233237831-e6249704-1222-44fd-9f1b-1f10363b1b88.png)
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 002](https://user-images.githubusercontent.com/54873972/233237832-08e9bc89-74f9-4502-8931-51aefa004093.png)
 
 
 **Figure 1.1, 1.2** showing the estimated std biased and non-biased with the actual calculated standard deviation of the entire population; figures are identical except that 1.2 was on a Log scale to emphasis the differences (the closer values are to the calculated standard deviation of the entire set the better)
 
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 003](https://user-images.githubusercontent.com/54873972/233227689-622dc3c9-cc5b-4313-8306-fb2001955e77.png)
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 003](https://user-images.githubusercontent.com/54873972/233237867-aacfe5e4-cc26-42d8-97e1-5cbf53d3235c.png)
 
 **Figure 1.3** showing the Biased vs non-biased absolute deviation (the lower the better)
 
@@ -75,7 +75,7 @@ With the medium dataset of size 10k
 
 
 
-|**SAMPLE SIZE**|**SAMPLE PERCENTAGE**|**ACTUAL STD**|**BIASED STD**|**NON-BIASED STD**|**BIASED AD**|**NON-BIASED AD**|
+|**SAMPLE SIZE**|**SAMPLE PERCENTAGE**|**ACTUAL STD**|**NON-BIASED STD**|**BIASED STD**|**NON-BIASED AD**|**BIASED AD**|
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |**50**|0\.50%|288\.91|284\.59|281\.73|5\.36|8\.22|
 |**100**|1%|288\.91|289\.59|288\.13|0\.36|1\.81|
@@ -103,13 +103,13 @@ It followed that pattern slightly, yet the difference of the estimated biased an
 
 Our initial conclusion from this set was that Bessel’s correction was getting less insignificant the bigger the dataset gets, and/or the bigger the sample gets.
 
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 004](https://user-images.githubusercontent.com/54873972/233227728-646f791f-74d3-46ec-814a-8a73fbb64573.png)
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 004](https://user-images.githubusercontent.com/54873972/233237884-75f0af40-014d-4b41-9c96-62d9d7362109.png)
 
 
 **Figure 1.4**, Same as figure 1.2 the Log scale of the plotted actual std, biased std and non-biased std.
 
 
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 005](https://user-images.githubusercontent.com/54873972/233227736-3a2cb395-aa63-4788-96e2-e55b66d3770f.png)
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 005](https://user-images.githubusercontent.com/54873972/233237899-8cf00e8c-76ff-4f38-9a74-2ba66ea7f81e.png)
 
 
 **Figure 1.5**, showing the Biased vs non-biased absolute deviation (the lower the better)
@@ -118,7 +118,7 @@ Our initial conclusion from this set was that Bessel’s correction was getting 
 
 **For the Large dataset of size 1,000,000**
 
-|**SAMPLE SIZE**|**SAMPLE PERCENTAGE**|**ACTUAL STD**|**BIASED STD**|**NON-BIASED STD**|**BIASED AD**|**NON-BIASED AD**|
+|**SAMPLE SIZE**|**SAMPLE PERCENTAGE**|**ACTUAL STD**|**NON-BIASED STD**|**BIASED STD**|**NON-BIASED AD**|**BIASED AD**|
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 |**5000**|0\.50%|288\.52|290\.47|290\.44|0\.52|0\.49|
 |**10000**|1%|288\.52|291\.91|291\.89|1\.96|1\.95|
@@ -141,13 +141,11 @@ Our initial conclusion from this set was that Bessel’s correction was getting 
 |**95000**|9\.50%|288\.52|288\.07|288\.06|1\.88|1\.88|
 |**100000**|10%|288\.52|289\.03|289\.03|0\.92|0\.92|
 
-
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 006](https://user-images.githubusercontent.com/54873972/233227756-e7c040ae-a5c5-403e-b975-5838d32372b3.png)
-
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 006](https://user-images.githubusercontent.com/54873972/233237921-c7a1960b-64b0-4e47-bc32-5b13a6ca18c3.png)
 
 **Figure 1.6**, showing the Log scale of the plotted actual std, biased std and non-biased std.
 
-![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 007](https://user-images.githubusercontent.com/54873972/233227767-945cb6b9-d3e5-41bc-abba-eaeeb6d90ce4.png)
+![Aspose Words a5c32a1f-1019-41bc-9a07-59cbd8217fdc 007](https://user-images.githubusercontent.com/54873972/233237948-45e2b303-f243-4bc4-836f-c267d9f73083.png)
 
 **Figure 1.7**, showing the Biased vs non-biased absolute deviation (the lower the better)
 
