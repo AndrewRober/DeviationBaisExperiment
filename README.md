@@ -241,5 +241,3 @@ Our initial take from this third experiment was that the more samples we have in
 **Conclusion**. 
 
 Bessel's correction is effective to correct the bias in estimating small sample sizes of less than 30 samples with the tendency to overshoot, with few cases of at 15-30 samples that we've seen better results when not correcting for bias. The effectiveness of Bessel's correction seems to be having a linear relation with the size of the sample in absolute while little to no effect in relative with the dataset size. while the dataset size had very little to no effect when having a fixed range of 999 that we used in this calculation given that we had a very uniform distribution with no outliers; we suspect that this might not be the case if we extended the range as the dataset size increased but that was outside the focus of this research at this point in time.
-2
-
