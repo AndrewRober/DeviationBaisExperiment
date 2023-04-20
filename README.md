@@ -4,8 +4,6 @@
 
 Andrew Rober
 
-<Andrew_Rober@hotmail.com>
-
 
 **Abstract.** This research paper presents an experiment that tests the practical and theoretical effectiveness of Bessel’s correction for correcting bias in sample variance and standard deviation calculations, First experiment we tested the correction on randomly generated datasets of constant range; various sizes with randomly selected sample sets; we sample the datasets few times randomly using a low initial percentage and incrementing said sample size to observe both the biased and non-biased estimations for that population sample and their absolute deviation from the calculated standard deviation of the dataset. With the second and third experiment to explain the findings of the first experiment as we isolated the two effective variables, we found which are the dataset size in absolute and the samples size in relative and in absolute.
 
