@@ -145,7 +145,7 @@ namespace DeviationBaisExperiment
             for (int i = 0; i < sds_samples.Count(); i++)
             {
                 var samples = sds_samples.ElementAt(i);
-                (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
+                (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
                 sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{smallDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
             }
             File.WriteAllText("Results\\small-ds.csv", sb.ToString());
@@ -155,7 +155,7 @@ namespace DeviationBaisExperiment
             for (int i = 0; i < mds_samples.Count(); i++)
             {
                 var samples = mds_samples.ElementAt(i);
-                (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
+                (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
                 sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{mediumDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
             }
             File.WriteAllText("Results\\medium-ds.csv", sb.ToString());
@@ -210,38 +210,22 @@ namespace DeviationBaisExperiment
                 //calculate mean average deviation between biased std and non-biased std
                 var smallMAD = sds_samples.Sum(s =>
                 {
-                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(s.ToArray());
                     return Math.Abs(biased - nonbiased);
                 }) / sds_samples.Count();
                 var smallMSE = sds_samples.Sum(s =>
                 {
-                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(s.ToArray());
                     return Math.Pow(biased - nonbiased, 2);
                 }) / sds_samples.Count();
                 var smallMAPE = sds_samples.Sum(s =>
                 {
-                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(s.ToArray());
                     return (Math.Abs(biased - nonbiased) / smallDsStd) * 100;
                 }) / sds_samples.Count();
                 sb.AppendLine($"{smallDs.Length}, {smallMAD:f2}, {smallMSE:f2}, {smallMAPE:f2}%");
             }
             File.WriteAllText("Results\\exp2-ds.csv", sb.ToString());
-
-
-
-
-            //Directory.CreateDirectory("Results");
-            //var sb = new StringBuilder();
-            //sb.AppendLine($"Sample Size, Sample Percentage, Actual Std, Biased Std, Non-Biased Std, Biased AD, Non-Biased AD");
-            //for (int i = 0; i < sds_samples.Count(); i++)
-            //{
-            //    var samples = sds_samples.ElementAt(i);
-            //    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(samples.ToArray());
-            //    sb.AppendLine($"{samples.Count()},{samplingArray[i] * 100}%,{smallDsStd:f2},{biased:f2},{nonbiased:f2},{Math.Abs(smallDsStd - biased):f2},{Math.Abs(smallDsStd - nonbiased):f2}");
-            //}
-            //File.WriteAllText("Results\\small-ds.csv", sb.ToString());
-
-
         }
 
         static void Experiment3(int times)
@@ -280,18 +264,18 @@ namespace DeviationBaisExperiment
                 //calculate mean average deviation between biased std and non-biased std
                 var smallMAD = sds_samples.Sum(s =>
                 {
-                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
-                    return Math.Abs(biased - nonbiased);
+                    (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return Math.Abs(nonbiased - biased);
                 }) / sds_samples.Count();
                 var smallMSE = sds_samples.Sum(s =>
                 {
-                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
-                    return Math.Pow(biased - nonbiased, 2);
+                    (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return Math.Pow(nonbiased - biased, 2);
                 }) / sds_samples.Count();
                 var smallMAPE = sds_samples.Sum(s =>
                 {
-                    (double biased, double nonbiased) = Arithmetic.StandardDeviationBiases(s.ToArray());
-                    return (Math.Abs(biased - nonbiased) / smallDsStd) * 100;
+                    (double nonbiased, double biased) = Arithmetic.StandardDeviationBiases(s.ToArray());
+                    return (Math.Abs(nonbiased - biased) / smallDsStd) * 100;
                 }) / sds_samples.Count();
                 sb.AppendLine($"{smallDs.Length}, {smallMAD:f2}, {smallMSE:f2}, {smallMAPE:f2}%");
             }

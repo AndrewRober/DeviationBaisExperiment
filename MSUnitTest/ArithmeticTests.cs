@@ -14,8 +14,8 @@ namespace MSUnitTest
         public void StandardDeviationBiasesTest()
         {
             var result = Arithmetic.StandardDeviationBiases(odd_ds_sample);
-            Assert.AreEqual(Math.Round(result.withBias, 7), 1.5811388);
-            Assert.AreEqual(Math.Round(result.withoutBias, 7), 1.4142136);
+            Assert.AreEqual(Math.Round(result.withoutBias, 7), 1.5811388);
+            Assert.AreEqual(Math.Round(result.withBias, 7), 1.4142136);
         }
 
         [TestMethod]

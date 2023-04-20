@@ -69,7 +69,7 @@
             return sortedData.Length % 2 == 0 ? (sortedData[mid - 1] + sortedData[mid]) / 2.0 : sortedData[mid];
         }
 
-        public static (double withBias, double withoutBias) StandardDeviationBiases(int[] data)
+        public static (double withoutBias, double withBias) StandardDeviationBiases(int[] data)
         {
             double sumOfSquaredDeviations = data.AsParallel().Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2));
             return (Math.Sqrt(sumOfSquaredDeviations / (data.Length - 1)),
@@ -80,7 +80,7 @@
 
         public static double Variance(int[] data) =>
             data.AsParallel().Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2)) / (data.Length);
-        public static double VarianceWithBias(int[] data) =>
+        public static double VarianceWithoutBias(int[] data) =>
             data.AsParallel().Sum(value => Math.Pow(value - (data.Sum() / data.Length), 2)) / (data.Length - 1);
 
         public static (double mean, double median, double mode, double range,
